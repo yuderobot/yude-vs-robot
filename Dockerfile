@@ -1,10 +1,16 @@
-FROM python:3.8.11-alpine3.13
+FROM python:latest
 ADD ./app /app
 
 WORKDIR /app
+
+# Install cron
+RUN apt update; apt install -y cron
+
+# Install Python dependencies
 RUN pip install -r requirements.txt
 
 # Add script to crontab
-RUN echo '0 */12 * * * cd /app; python main.py' > /var/spool/cron/crontabs/root
+RUN echo '0 */12 * * * cd /app; python main.py' > /etc/cron.d/yude-vs-robot
+RUN chmod 0644 /etc/cron.d/yude-vs-robot
 
-ENTRYPOINT ["crond", "-f"]
+CMD cron && tail -f /dev/null
