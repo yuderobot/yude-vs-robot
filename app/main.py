@@ -17,7 +17,7 @@ CS = os.environ.get("CS")
 AT = os.environ.get("AT")
 AS = os.environ.get("AS")
 
-# Generate Twitter objects
+# Generate Twitter object
 auth = tweepy.OAuthHandler(CK, CS)
 auth.set_access_token(AT, AS)
 api = tweepy.API(auth)
@@ -50,10 +50,10 @@ def timestamp():
 # Initialize "data/data.json" in case there's no file
 def init():
     if os.path.isfile(path):
-        print("[INFO] 💮 {} exists on filesystem. Skipping initialize step.".format(path))
+        print("[INFO] 🔷 {} exists on filesystem. Skipping initialize step.".format(path))
         pass
     else:
-        print("[INFO] 💥 {} does not exist! Generating.".format(path))
+        print("[INFO] 🔷 {} does not exist! Generating.".format(path))
         
         data = {}
         data['timestamp'] = []
@@ -72,9 +72,13 @@ def load():
     return parsed
 
 # Save data to "data/data.json"
-def save():
-    print("[INFO] 💨 Storing data.")
-    data = load()
+def save(data = None):
+    print("[INFO] 🔷 Storing data.")
+    if data is None:
+        print("[INFO] 🔷 'data' variable is N/A. Loading data from {}.".format(path))
+        data = load()
+    else:
+        print("[INFO] 🔷 'data' variable is specified. Using it.")
     print(data)
     data['timestamp'].append(timestamp())
     data['yude'].append(get_yude())
@@ -84,11 +88,20 @@ def save():
         json.dump(data, outfile)
     print("[INFO] ✅ The data has been successfully stored. Below is its content:\n{}".format(data))
 
-# Show the graph by using matplotlib
-def show_graph():
-    print("💹 Trying to show the graph by using matplotlib.")
+# Delete old data. Leaving the past 4 items.
+def delete():
     data = load()
-    plt.figure()
+    del data['timestamp'][:-4]
+    del data['yude'][:-4]
+    del data['robot'][:-4]
+    print(data)
+    save(data)
+
+# Show or save the graph by using matplotlib
+def graph():
+    print("🔷 Trying to show the graph by using matplotlib.")
+    data = load()
+    plt.figure(figsize=(15,5)) # 1500x500 is Twitter's recommendation of header size.
     
     # @yude_jp
     x = data['timestamp']
@@ -104,13 +117,16 @@ def show_graph():
     plt.xlabel('timestamp')
     plt.ylabel('tweets')
     
-    plt.show()
-
+    # plt.show()
+    plt.savefig('./data/fig.png', format='png')
+    print("[INFO] ✅ Successfully saved graph.")
 
 def main():
     init()
     save()
-    show_graph()
+    delete()
+    graph()
+    
 
 if __name__ == '__main__':
   main()
