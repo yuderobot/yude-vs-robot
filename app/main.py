@@ -27,7 +27,8 @@ yude = 0
 robot = 0
 
 # File path for saving data
-path = "./data/data.json"
+data_path = "./data/data.json"
+banner_path = "./data/fig.png"
 
 # Get @yude_jp tweet count
 def get_yude():
@@ -49,25 +50,25 @@ def timestamp():
 
 # Initialize "data/data.json" in case there's no file
 def init():
-    if os.path.isfile(path):
-        print("[INFO] 🔷 {} exists on filesystem. Skipping initialize step.".format(path))
+    if os.path.isfile(data_path):
+        print("[INFO] 🔷 {} exists on filesystem. Skipping initialize step.".format(data_path))
         pass
     else:
-        print("[INFO] 🔷 {} does not exist! Generating.".format(path))
+        print("[INFO] 🔷 {} does not exist! Generating.".format(data_path))
         
         data = {}
         data['timestamp'] = []
         data['yude'] = []
         data['robot'] = []
         
-        with open(path, 'w') as outfile:
+        with open(data_path, 'w') as outfile:
             json.dump(data, outfile)
         
 # Load data from "data/data.json"
 def load():
     print("[INFO] 💦 Loading data.")
     init()
-    raw = open(path, 'r')
+    raw = open(data_path, 'r')
     parsed = json.load(raw)
     return parsed
 
@@ -75,16 +76,15 @@ def load():
 def save(data = None):
     print("[INFO] 🔷 Storing data.")
     if data is None:
-        print("[INFO] 🔷 'data' variable is N/A. Loading data from {}.".format(path))
+        print("[INFO] 🔷 'data' variable is N/A. Loading data from {}.".format(data_path))
         data = load()
     else:
         print("[INFO] 🔷 'data' variable is specified. Using it.")
-    print(data)
     data['timestamp'].append(timestamp())
     data['yude'].append(get_yude())
     data['robot'].append(get_robot())
     
-    with open(path, 'w') as outfile:
+    with open(data_path, 'w') as outfile:
         json.dump(data, outfile)
     print("[INFO] ✅ The data has been successfully stored. Below is its content:\n{}".format(data))
 
@@ -118,15 +118,19 @@ def graph():
     plt.ylabel('tweets')
     
     # plt.show()
-    plt.savefig('./data/fig.png', format='png')
+    plt.savefig(banner_path, format='png')
     print("[INFO] ✅ Successfully saved graph.")
+
+# Update @yuderobot header with './data/fig.png'.
+def update_header():
+    api.update_profile_banner(banner_path)
 
 def main():
     init()
     save()
     delete()
     graph()
-    
+    update_header()
 
 if __name__ == '__main__':
   main()
