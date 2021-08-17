@@ -66,7 +66,7 @@ def init():
         
 # Load data from "data/data.json"
 def load():
-    print("[INFO] 💦 Loading data.")
+    print("[INFO] 🔷 Loading data.")
     init()
     raw = open(data_path, 'r')
     parsed = json.load(raw)
@@ -99,7 +99,7 @@ def delete():
 
 # Show or save the graph by using matplotlib
 def graph():
-    print("🔷 Trying to show the graph by using matplotlib.")
+    print("[INFO] 🔷 Trying to show the graph by using matplotlib.")
     data = load()
     plt.figure(figsize=(15,5)) # 1500x500 is Twitter's recommendation of header size.
     
