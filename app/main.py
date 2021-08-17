@@ -88,12 +88,12 @@ def save(data = None):
         json.dump(data, outfile)
     print("[INFO] ✅ The data has been successfully stored. Below is its content:\n{}".format(data))
 
-# Delete old data. Leaving the past 4 items.
+# Delete old data. Leaving the past 7 items.
 def delete():
     data = load()
-    del data['timestamp'][:-4]
-    del data['yude'][:-4]
-    del data['robot'][:-4]
+    del data['timestamp'][:-7]
+    del data['yude'][:-7]
+    del data['robot'][:-7]
     print(data)
     save(data)
 
