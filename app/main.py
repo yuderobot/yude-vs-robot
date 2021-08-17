@@ -94,7 +94,6 @@ def delete():
     del data['timestamp'][:-7]
     del data['yude'][:-7]
     del data['robot'][:-7]
-    print(data)
     save(data)
 
 # Show or save the graph by using matplotlib
