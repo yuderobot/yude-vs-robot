@@ -124,6 +124,7 @@ def graph():
 # Update @yuderobot header with './data/fig.png'.
 def update_header():
     api.update_profile_banner(banner_path)
+    print("[INFO] ✅ Successfully updated profile banner.")
 
 def main():
     init()
