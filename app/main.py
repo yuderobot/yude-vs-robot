@@ -86,15 +86,17 @@ def save(data = None):
     
     with open(data_path, 'w') as outfile:
         json.dump(data, outfile)
-    print("[INFO] ✅ The data has been successfully stored. Below is its content:\n{}".format(data))
 
 # Delete old data. Leaving the past 7 items.
 def delete():
     data = load()
+    
     del data['timestamp'][:-7]
     del data['yude'][:-7]
     del data['robot'][:-7]
-    save(data)
+    
+    with open(data_path, 'w') as outfile:
+        json.dump(data, outfile)
 
 # Show or save the graph by using matplotlib
 def graph():
