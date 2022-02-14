@@ -6,7 +6,7 @@ services:
         build: .
         image: yude/yude-vs-robot:latest
         volumes:
-          - "./app/data:/app/data"
+          - "./data:/app/data"
         environment:
           # Twitter API related
           - CK=
