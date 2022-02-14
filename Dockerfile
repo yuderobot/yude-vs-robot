@@ -15,4 +15,4 @@ RUN echo '0 */12 * * * root cd /app; /usr/local/bin/python main.py' >> /etc/cron
 # Add application to the image
 ADD ./app/main.py /app/
 
-CMD cron && tail -f /dev/null
+CMD crond -l 2 -f
