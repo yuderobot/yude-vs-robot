@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import datetime
 import json
 import matplotlib.pyplot as plt
+import sys
 
 # Import keys from .env
 dotenv_path = join(dirname(__file__), '.env')
@@ -50,9 +51,16 @@ def timestamp():
 
 # Initialize "data/data.json" in case there's no file
 def init():
+    # Check if the file exists
     if os.path.isfile(data_path):
         print("[INFO] 🔷 {} exists on filesystem. Skipping initialize step.".format(data_path))
-        pass
+        # Check if the file has valid JSON string
+        try:
+            json.load(open(data_path, 'r'))
+        except json.JSONDecodeError as e :
+            print(e)
+            sys.exit("❌ `data/data.json` is not a valid JSON file.")
+            
     else:
         print("[INFO] 🔷 {} does not exist! Generating.".format(data_path))
         
@@ -63,7 +71,7 @@ def init():
         
         with open(data_path, 'w') as outfile:
             json.dump(data, outfile)
-        
+
 # Load data from "data/data.json"
 def load():
     print("[INFO] 🔷 Loading data.")
