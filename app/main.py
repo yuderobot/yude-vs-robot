@@ -57,7 +57,7 @@ def init():
         # Check if the file has valid JSON string
         try:
             json.load(open(data_path, 'r'))
-        except json.JSONDecodeError as e :
+        except json.JSONDecodeError as e:
             print(e)
             sys.exit("❌ `data/data.json` is not a valid JSON file.")
             
