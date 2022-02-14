@@ -1,8 +1,12 @@
-FROM python:latest
+FROM python:3.10.2-alpine3.15
 WORKDIR /app
 
-# Install cron
-RUN apt update; apt install -y cron
+# Setup timezone & install cron
+RUN apk --update add tzdata && \
+    cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
+    apk del tzdata && \
+    rm -rf /var/cache/apk/*
+
 # Install Python dependencies
 ADD ./app/requirements.txt /app/
 RUN pip install -r requirements.txt
