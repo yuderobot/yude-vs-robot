@@ -13,7 +13,7 @@ WORKDIR /app
 # Add script to crontab
 RUN echo '0 */12 * * * root cd /app; /usr/local/bin/python main.py' >> /etc/crontab
 # Setup timezone & install cron
-RUN apk --update add tzdata libstdc++ freetype-dev && \
+RUN apk --update add tzdata libstdc++ freetype-dev jpeg-dev && \
     cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
     apk del tzdata && \
     rm -rf /var/cache/apk/*
