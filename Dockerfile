@@ -22,5 +22,7 @@ COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python
 COPY --from=builder /usr/local/bin /usr/local/bin
 # Add application to the image
 ADD ./app/main.py /app/
+RUN mkdir -p /etc/cron.d
+ADD ./app/run.cron /etc/cron.d/
 
 CMD crond -l 2 -f
