@@ -1,0 +1,1 @@
+0 1 * * * cd /app; /usr/local/bin/python main.py
