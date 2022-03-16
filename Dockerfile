@@ -5,7 +5,7 @@ WORKDIR /app
 ADD ./app/requirements.txt /app/
 RUN apk add --no-cache build-base freetype-dev jpeg-dev zlib-dev && \
     /usr/local/bin/python -m pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install --prefer-binary -r requirements.txt
 
 FROM python:3.9.10-alpine3.15 AS runner
 WORKDIR /app
