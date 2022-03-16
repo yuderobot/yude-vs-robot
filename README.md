@@ -9,7 +9,7 @@
         yude-vs-robot:
             restart: always
             container_name: yude-vs-robot
-            image: yude/yude-vs-robot:latest
+            image: ghcr.io/yuderobot/yude-vs-robot:main
             volumes:
               - "./data:/app/data"
             environment:
