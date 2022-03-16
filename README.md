@@ -2,7 +2,24 @@
 🆚 Compare tweet counts of @yude_jp and @yuderobot
 
 ## Setup
-Specify your credentials in `docker-compose.yml` and run `docker-compose up -d`.
+1. Create `docker-compose.yml` and paste the below and set your token in this file.
+    ```
+    version: '3'
+    services:
+        yude-vs-robot:
+            restart: always
+            container_name: yude-vs-robot
+            image: yude/yude-vs-robot:latest
+            volumes:
+              - "./data:/app/data"
+            environment:
+              # Twitter API related
+              - CK=
+              - CS=
+              - AT=
+              - AS=
+    ```
+2. Run `docker-compose up -d`. To update, run `docker-compose pull` before firing up the container.
 
 ## License
 This repository is provided under the MIT License.
