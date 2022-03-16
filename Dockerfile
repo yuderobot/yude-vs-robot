@@ -1,22 +1,21 @@
-FROM python:3.9.10-alpine3.15 AS builder
+FROM python:3.9.10-bullseye AS builder
 WORKDIR /app
 
 # Install Python dependencies
 ADD ./app/requirements.txt /app/
-RUN apk add --no-cache build-base freetype-dev jpeg-dev zlib-dev && \
+RUN apt update; apt -y install libfreetype-dev libjpeg-dev && \
     /usr/local/bin/python -m pip install --upgrade pip && \
     pip install --prefer-binary -r requirements.txt
 
-FROM python:3.9.10-alpine3.15 AS runner
+FROM python:3.9.10-bullseye AS runner
 WORKDIR /app
 
 # Add script to crontab
 RUN echo '0 */12 * * * cd /app; /usr/local/bin/python main.py' >> /etc/crontab
 # Setup timezone & install cron
-RUN apk --update add tzdata libstdc++ freetype-dev jpeg-dev && \
+RUN apt update; apt -y install tzdata libfreetype-dev libjpeg-dev && \
     cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
-    apk del tzdata && \
-    rm -rf /var/cache/apk/*
+    apt -y purge tzdata
 # Copy dependencies from builder
 COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
