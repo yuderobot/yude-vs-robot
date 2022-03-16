@@ -11,7 +11,7 @@ FROM python:3.9.10-alpine3.15 AS runner
 WORKDIR /app
 
 # Add script to crontab
-RUN echo '0 */12 * * * root cd /app; /usr/local/bin/python main.py' >> /etc/crontab
+RUN echo '0 */12 * * * cd /app; /usr/local/bin/python main.py' >> /etc/crontab
 # Setup timezone & install cron
 RUN apk --update add tzdata libstdc++ freetype-dev jpeg-dev && \
     cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
