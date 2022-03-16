@@ -15,7 +15,8 @@ RUN echo '0 */12 * * * cd /app; /usr/local/bin/python main.py' >> /etc/crontab
 # Setup timezone & install cron
 RUN apt update; apt -y install tzdata libfreetype-dev libjpeg-dev && \
     cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
-    apt -y purge tzdata
+    apt -y purge tzdata && \
+    apt -y autoremove
 # Copy dependencies from builder
 COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
