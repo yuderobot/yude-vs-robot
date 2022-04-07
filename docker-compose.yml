@@ -1,6 +1,6 @@
 version: '3'
 services:
-    yude-vs-robot:
+    app:
         restart: always
         container_name: yude-vs-robot
         build: .
