@@ -24,4 +24,4 @@ ADD ./app/main.py /app/
 RUN mkdir -p /var/spool/cron/crontabs/ && \
     echo '0 */12 * * * cd /app; /usr/local/bin/python main.py' >> /var/spool/cron/crontabs/root
 
-CMD crond -f
+CMD cron -f
