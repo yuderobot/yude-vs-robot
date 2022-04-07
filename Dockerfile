@@ -22,6 +22,7 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 ADD ./app/main.py /app/
 # Add script to crontab
 RUN mkdir -p /var/spool/cron/crontabs/ && \
-    echo '0 */12 * * * cd /app; /usr/local/bin/python main.py' >> /var/spool/cron/crontabs/root
+    echo '0 */12 * * * cd /app; /usr/local/bin/python main.py' >> /var/spool/cron/crontabs/root && \
+    crontab /var/spool/cron/crontabs/root
 
 CMD cron -f
