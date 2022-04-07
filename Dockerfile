@@ -10,10 +10,8 @@ RUN apt update; apt -y install libfreetype-dev libjpeg-dev && \
 FROM python:3.9.10-bullseye AS runner
 WORKDIR /app
 
-# Add script to crontab
-RUN echo '0 */12 * * * cd /app; /usr/local/bin/python main.py' >> /etc/crontab
 # Setup timezone & install cron
-RUN apt update; apt -y install tzdata libfreetype-dev libjpeg-dev && \
+RUN apt update; apt -y install tzdata libfreetype-dev libjpeg-dev cron && \
     cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
     apt -y purge tzdata && \
     apt -y autoremove
@@ -22,5 +20,8 @@ COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python
 COPY --from=builder /usr/local/bin /usr/local/bin
 # Add application to the image
 ADD ./app/main.py /app/
+# Add script to crontab
+RUN mkdir -p /var/spool/cron/crontabs/ && \
+    echo '0 */12 * * * cd /app; /usr/local/bin/python main.py' >> /var/spool/cron/crontabs/root
 
 CMD crond -f
